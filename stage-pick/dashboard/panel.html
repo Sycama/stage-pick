@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<style>
+		.monospace {
+			font-family: monospace;
+		}
+		img {
+			width: 95%;
+		}
+		.pic_frame {
+			display: inline-block;
+			text-align: center;
+			width: 19%;
+			margin-bottom: 22px;
+		}
+		.des{
+			font-size: 24px;
+		}
+		#des_en{
+			border-bottom: solid 3px grey;
+			margin-bottom: 44px;
+		}
+		.button{
+			width: 70%;
+			padding: 10px;
+			margin: 5px;
+			font-size: 30px;
+		}
+		.secret{
+			display: none;
+			margin-top: 22px
+		}
+	</style>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+	<center>
+		<div class="des" id="des_ja"></div>
+		<div class="des" id="des_en"></div>
+		<div class="pic_frame">
+			<img class="toggle" src="img/1.png" id="1">
+			<p>戦場<br>Battlefield</p>
+		</div>
+		<div class="pic_frame">
+			<img class="toggle" src="img/2.png" id="2">
+			<p>終点<br>Final Destination</p>
+		</div>
+		<div class="pic_frame">
+			<img class="toggle" src="img/3.png" id="3">
+			<p>ポケモンスタジアム2<br>Pokémon Stadium 2</p>
+		</div>
+		<div class="pic_frame">
+			<img class="toggle" src="img/4.png" id="4">
+			<p>すま村<br>Smashville</p>
+		</div>
+		<div class="pic_frame">
+			<img class="toggle" src="img/5.png" id="5">
+			<p>村と街<br>Town and City</p>
+		</div>
+		<div class="secret">
+			<div class="pic_frame">
+				<img class="toggle" src="img/6.png" id="6">
+				<p>ライラットクルーズ<br>Lylat Cruise</p>
+			</div>
+			<div class="pic_frame">
+				<img class="toggle" src="img/7.png" id="7">
+				<p>カロスポケモンリーグ<br>Kalos Pokémon League</p>
+			</div>
+			<div class="pic_frame">
+				<img class="toggle" src="img/8.png" id="8">
+				<p>小戦場<br>Small Battlefield</p>
+			</div>
+		</div>
+		<div>
+			<input type="button" class="button" value="リセット/Reset" id="res_bu">
+			<input type="button" class="button" value="カウンターピックに切り替え/Switch to counterpick" id="che_bu">
+		</div>
+	</center>
+</body>
+	<script>
+		$(function () {
+			let ImCount = 0;
+			const dataRep = nodecg.Replicant("data", { persistent: false});
+			dataRep.value = {
+				"st1": "",
+				"st2": "",
+				"st3": "",
+				"st4": "",
+				"id1": "",
+				"id2": "",
+				"id3": "",
+				"id4": ""
+			};
+			const stageListJa = {
+				"": "",
+				"1": "戦場",
+				"2": "終点",
+				"3": "ポケモンスタジアム2",
+				"4": "すま村",
+				"5": "村と街",
+				"6": "ライラットクルーズ",
+				"7": "カロスポケモンリーグ",
+				"8": "小戦場"
+			};
+			const stageList = {
+				"": "",
+				"1": "Battlefield",
+				"2": "Final Destination",
+				"3": "Pokémon Stadium 2",
+				"4": "Smashville",
+				"5": "Town and City",
+				"6": "Lylat Cruise",
+				"7": "Kalos Pokémon League",
+				"8": "Small Battlefield"
+			};
+			document.getElementById("des_ja").innerHTML = "ステージ選択権を得たプレイヤーは1ステージ拒否してください";
+			document.getElementById("des_en").innerHTML = "The player who chooses to strike a stage first may ban 1 stage.";
+			$(".toggle").on("click", function () {
+				if ($(this).hasClass("change")==false) {
+					if (ImCount == 0) {
+						var src = $(this).attr("src").replace(".png", "b.png");
+						dataRep.value.st1 = src;
+						dataRep.value.id1 = $(this).attr("id");
+						$(this).toggleClass("change");
+						if($("#che_bu").hasClass("counter")){
+							document.getElementById("des_ja").innerHTML = "前試合の勝者は2ステージ拒否してください";
+							document.getElementById("des_en").innerHTML = "The player who won the previous game may ban 2 stages.";
+						} else {
+							document.getElementById("des_ja").innerHTML = "ステージ選択権を得ていないプレイヤーは2ステージ拒否してください";
+							document.getElementById("des_en").innerHTML = "The player who doesn't choose to strike a stage first may ban 2 stages.";
+						}
+					} else if (ImCount == 1) {
+						var src = $(this).attr("src").replace(".png", "b.png");
+						dataRep.value.st2 = src;
+						dataRep.value.id2 = $(this).attr("id");
+						$(this).toggleClass("change");
+						if ($("#che_bu").hasClass("counter")) {
+							document.getElementById("des_ja").innerHTML = "前試合の勝者は1ステージ拒否してください";
+							document.getElementById("des_en").innerHTML = "The player who won the previous game may ban 1 stage.";
+						} else {
+							document.getElementById("des_ja").innerHTML = "ステージ選択権を得ていないプレイヤーは1ステージ拒否してください";
+							document.getElementById("des_en").innerHTML = "The player who doesn't choose to strike a stage first may ban 1 stage.";
+						}
+					} else if (ImCount == 2) {
+						var src = $(this).attr("src").replace(".png", "b.png");
+						dataRep.value.st3 = src;
+						dataRep.value.id3 = $(this).attr("id");
+						$(this).toggleClass("change");
+						if ($("#che_bu").hasClass("counter")) {
+							document.getElementById("des_ja").innerHTML = "前試合の敗者は対戦ステージを選択してください";
+							document.getElementById("des_en").innerHTML = "The player who lost the previous game selects a stage to play against.";
+						} else {
+							document.getElementById("des_ja").innerHTML = "ステージ選択権を得たプレイヤーは対戦ステージを選択してください";
+							document.getElementById("des_en").innerHTML = "The player who chooses to strike a stage first selects a stage to play against.";
+						}
+					} else if (ImCount == 3) {
+						var src = $(this).attr("src").replace(".png", "c.png");
+						dataRep.value.st4 = src;
+						dataRep.value.id4 = $(this).attr("id");
+						$(this).toggleClass("select");
+						document.getElementById("des_ja").innerHTML = "「" + stageListJa[$(this).attr("id")] + "」" + "が選択されました";
+						document.getElementById("des_en").innerHTML = '“' + stageList[$(this).attr("id")] + '”' + " has been selected.";
+					}
+					$(this).attr("src", src);
+					ImCount = ImCount + 1;
+				};
+			});
+
+			$("#res_bu").on("click", function() {
+				dataRep.value = {
+					"st1": "",
+					"st2": "",
+					"st3": "",
+					"st4": "",
+					"id1": "",
+					"id2": "",
+					"id3": "",
+					"id4": ""
+				};
+				ImCount = 0;
+				if ($("#che_bu").hasClass("counter")){
+					document.getElementById("des_ja").innerHTML = "前試合の勝者は3ステージ拒否してください";
+					document.getElementById("des_en").innerHTML = "The player who won the previous game may ban 3 stages.";
+				} else {
+					document.getElementById("des_ja").innerHTML = "ステージ選択権を得たプレイヤーは1ステージ拒否してください";
+					document.getElementById("des_en").innerHTML = "The player who chooses to strike a stage first may ban 1 stage.";
+				}
+				$(".toggle").each(function(){
+					if($(this).hasClass("change")){
+						var src = $(this).attr("src").replace("b.png", ".png");
+						$(this).toggleClass("change");
+						$(this).attr("src", src);
+					}
+					if ($(this).hasClass("select")) {
+						var src = $(this).attr("src").replace("c.png", ".png");
+						$(this).toggleClass("select");
+						$(this).attr("src", src);
+					}
+				});
+			});
+
+			var imgTarget = $(".secret");
+			$("#che_bu").on("click", function(){
+				dataRep.value = {
+					"st1": "",
+					"st2": "",
+					"st3": "",
+					"st4": "",
+					"id1": "",
+					"id2": "",
+					"id3": "",
+					"id4": ""
+				};
+				ImCount = 0;
+				$(".toggle").each(function () {
+					if ($(this).hasClass("change")) {
+						var src = $(this).attr("src").replace("b.png", ".png");
+						$(this).toggleClass("change");
+						$(this).attr("src", src);
+					}
+					if ($(this).hasClass("select")) {
+						var src = $(this).attr("src").replace("c.png", ".png");
+						$(this).toggleClass("select");
+						$(this).attr("src", src);
+					}
+				});
+				if ($(this).hasClass("counter") == false){
+					imgTarget.fadeIn("fast");
+					$(this).toggleClass("counter");
+					$(this).attr("value", "スターターに切り替え/Switch to starter");
+					document.getElementById("des_ja").innerHTML = "前試合の勝者は3ステージ拒否してください";
+					document.getElementById("des_en").innerHTML = "The player who won the previous game may ban 3 stages.";
+				} else {
+					imgTarget.fadeOut("fast");
+					$(this).toggleClass("counter");
+					$(this).attr("value", "カウンターピックに切り替え/Switch to counterpick");
+					document.getElementById("des_ja").innerHTML = "ステージ選択権を得たプレイヤーは1ステージ拒否してください";
+					document.getElementById("des_en").innerHTML = "The player who chooses to strike a stage first may ban 1 stage.";
+				}
+			});
+		});
+	</script>
+</html>

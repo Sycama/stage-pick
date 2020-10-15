@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+	<style>
+		body {
+			font-family: sans-serif;
+		}
+
+		.monospace {
+			font-family: monospace;
+		}
+		
+		img {
+			width: 100%;
+		}
+		.pic_frame {
+			display: inline-block;
+			text-align: center;
+			width: 19%;
+			opacity: 0;
+			transition-duration: 1s;
+			transition-timing-function: ease;
+			position: relative;
+			Left: 128px;
+			margin-right: 10px;
+		}
+		.pic_frame.showLeft{
+			opacity: 1;
+			transition-duration: 2s;
+			transition-timing-function: ease;
+			position: relative;
+			Left: 0px;
+		}
+		.stName{
+			background-color: black;
+			color: white;
+			font-size: 20px;
+		}
+		#id4, #ja4{
+			background-color: green;
+		}
+	</style>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	</head>
+	
+	<body>
+		<div class="pic_frame" id="pic1">
+			<img class="toggle" src="" id="im1">
+			<div class="stName" id="ja1"></div>
+			<div class="stName" id="id1"></div>
+		</div>
+		<div class="pic_frame" id="pic2">
+			<img class="toggle" src="" id="im2">
+			<div class="stName" id="ja2"></div>
+			<div class="stName" id="id2"></div>
+		</div>
+		<div class="pic_frame" id="pic3">
+			<img class="toggle" src="" id="im3">
+			<div class="stName" id="ja3"></div>
+			<div class="stName" id="id3"></div>
+		</div>
+		<div class="pic_frame" id="pic4">
+			<img class="toggle" src="" id="im4">
+			<div class="stName" id="ja4"></div>
+			<div class="stName" id="id4"></div>
+		</div>
+	</body>
+	<script>
+		const im1 = document.getElementById("im1");
+		const im2 = document.getElementById("im2");
+		const im3 = document.getElementById("im3");
+		const im4 = document.getElementById("im4");
+		const id1 = document.getElementById("id1");
+		const id2 = document.getElementById("id2");
+		const id3 = document.getElementById("id3");
+		const id4 = document.getElementById("id4");
+		const ja1 = document.getElementById("ja1");
+		const ja2 = document.getElementById("ja2");
+		const ja3 = document.getElementById("ja3");
+		const ja4 = document.getElementById("ja4");
+		
+		const stageListJa = {
+			"": "",
+			"1": "戦場",
+			"2": "終点",
+			"3": "ポケモンスタジアム2",
+			"4": "すま村",
+			"5": "村と街",
+			"6": "ライラットクルーズ",
+			"7": "カロスポケモンリーグ",
+			"8": "小戦場"
+		};
+		const stageList = {
+			"": "",
+			"1": "Battlefield",
+			"2": "Final Destination",
+			"3": "Pokémon Stadium 2",
+			"4": "Smashville",
+			"5": "Town and City",
+			"6": "Lylat Cruise",
+			"7": "Kalos Pokémon League",
+			"8": "Small Battlefield"
+		}
+
+		const dataRep = nodecg.Replicant("data", { persistent: false});
+		dataRep.on("change", newValue => {
+			if (newValue.st1 != "") {
+				im1.src = newValue.st1;
+				id1.innerHTML = stageList[newValue.id1]
+				ja1.innerHTML = stageListJa[newValue.id1]
+				$("#pic1").addClass("showLeft");
+			} else {
+				$("#pic1").removeClass("showLeft");
+			}
+			if (newValue.st2 != "") {
+				im2.src = newValue.st2;
+				id2.innerHTML = stageList[newValue.id2]
+				ja2.innerHTML = stageListJa[newValue.id2]
+				$("#pic2").addClass("showLeft");
+			} else {
+				$("#pic2").removeClass("showLeft");
+			}
+			if (newValue.st3 != "") {
+				im3.src = newValue.st3;
+				id3.innerHTML = stageList[newValue.id3]
+				ja3.innerHTML = stageListJa[newValue.id3]
+				$("#pic3").addClass("showLeft");
+			} else {
+				$("#pic3").removeClass("showLeft");
+			}
+			if (newValue.st4 != "") {
+				im4.src = newValue.st4;
+				id4.innerHTML = stageList[newValue.id4]
+				ja4.innerHTML = stageListJa[newValue.id4]
+				$("#pic4").addClass("showLeft");
+			} else {
+				$("#pic4").removeClass("showLeft");
+			}
+		});
+	</script>
+</html>
