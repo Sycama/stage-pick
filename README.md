@@ -41,7 +41,7 @@ NodeCGはlocalhost上で動いているので，ただ実行しただけの状�
 ## Licence
 
 Copyright (c) 2020 Sycama  
-Released under the [MIT](https://opensource.org/licenses/mit-license.php) license
+This software is released under the MIT License, see LICENSE.txt.
 
 
 ## Author
